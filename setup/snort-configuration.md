@@ -134,7 +134,7 @@ Note: This can interfere with testing if not tuned properly.
 
 - [→ Create custom firewall rules](../firewall-and-snort-rules.md)
 - [→ Simulate malware download, port scans, brute force](../simulations/)
-- [→ Forward Snort alerts to Splunk or Wazuh](../log-forwarding.md)
+- [→ Forward Snort alerts to Splunk or Wazuh](log-forwarding.md)
 
 ---
 

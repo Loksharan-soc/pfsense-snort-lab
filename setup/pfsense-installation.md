@@ -149,8 +149,8 @@ sudo ip route add default via 192.168.1.1
 
 ## Next Steps
 
-- [→ Install and configure Snort](../snort-configuration.md)
-- [→ Forward logs to Wazuh and Splunk](../log-forwarding.md)
+- [→ Install and configure Snort](snort-configuration.md)
+- [→ Forward logs to Wazuh and Splunk](log-forwarding.md)
 - [→ Create firewall and IDS/IPS rules](../firewall-and-snort-rules.md)
 - [→ Simulate network attacks using Kali](../simulations/nmap-scan.md)
 

@@ -34,6 +34,12 @@ This project demonstrates how to build a virtual network security lab using pfSe
 - Compare Snort with Suricata
 - Map activities to MITRE ATT&CK techniques
 
+## Setup Guides
+
+- [→ Install pfSense in VirtualBox](setup/pfsense-installation.md)
+- [→ Configure Snort on pfSense](setup/snort-configuration.md)
+- [→ Route Windows VM Traffic Through pfSense](setup/windows-routing-through-pfsense.md)
+
 ## Attack Simulations
 
 | Simulation              | Technique | Tool         | Detection      |
