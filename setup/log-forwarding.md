@@ -1,2 +1,41 @@
-<pre lang="md"><code># Log Forwarding from pfSense to SIEM This guide explains how to forward pfSense logs (firewall events, system logs, Snort alerts) to an external log collector like Splunk or Wazuh. --- ## 🧰 Prerequisites - pfSense is installed and accessible via Web UI. - A log collector is running (e.g., Splunk or Wazuh Manager). - Network connectivity between pfSense and the log collector. --- ## 🌐 Step 1: Configure Remote Logging in pfSense 1. Log in to the pfSense Web UI. 2. Navigate to: \*\*Status > System Logs > Settings\*\* 3. Scroll to \*\*Remote Logging Options\*\* and check: ✅ \*Send log messages to remote syslog server\* 4. In \*\*Remote Syslog Servers\*\*, enter the IP and port: ``` 192.168.1.10:514 ``` \*(Replace `192.168.1.10` with your Wazuh/Splunk server IP)\* 5. Under \*\*Remote Syslog Contents\*\*, check relevant options: - ✅ Firewall Events - ✅ System Events - ✅ DHCP - ✅ Snort Alerts (if installed) 6. Scroll down and click \*\*Save\*\*. --- ## 🧪 Step 2: Verify Logs on Collector ### 🔎 On Wazuh - Check `/var/ossec/logs/ossec.log` or the Wazuh dashboard for incoming logs. - Use log decoder rules if needed for parsing. ### 🔎 On Splunk - Navigate to \*\*Search \& Reporting\*\* and run: ```spl index=main sourcetype=syslog host="pfSense" ``` - You should see pfSense logs including Snort alerts, system info, and firewall actions. --- ## 🔄 Optional: Forward Snort Alerts If using the Snort package: 1. Go to \*\*Services > Snort > Interfaces > \[WAN/LAN]\*\*. 2. Under \*\*Logging Settings\*\*, enable: - ✅ Send Alerts to Syslog 3. Choose \*\*Syslog Facility\*\*: `local3` (or any available) 4. Save and apply changes. Then, configure your SIEM to parse `local3` facility logs separately for Snort alerts. --- ## 📝 Notes - pfSense uses UDP 514 by default for syslog. Make sure this port is open on your SIEM server. - To use TCP or encrypted transport, consider installing \*\*Syslog-ng\*\* or \*\*rsyslog\*\* on pfSense via shell access (advanced). - For better structure in Splunk or Wazuh, create custom parsing rules for Snort and pfSense logs.
+# log-forwarding.md
 
+# Log Forwarding from pfSense to SIEM
+
+This guide explains how to forward pfSense logs (firewall events, system logs, Snort alerts) to external log collectors like Splunk or Wazuh.
+
+---
+
+## Prerequisites
+
+- pfSense installed and accessible via Web UI
+- A log collector (Splunk or Wazuh) set up and reachable from pfSense
+- Network connectivity between pfSense and log collector
+
+---
+
+## Step 1: Configure Remote Logging in pfSense
+
+1. Log in to the pfSense Web UI.
+2. Navigate to: **Status > System Logs > Settings**
+3. Scroll to **Remote Logging Options** and check:
+   - Send log messages to remote syslog server
+4. In **Remote Syslog Servers**, enter the IP and port(s) of your log servers, separated by commas. For example:
+   ```
+   192.168.1.157:5516, 192.168.1.157:514
+   ```
+5. Under **Remote Syslog Contents**, select the types of logs you want to forward:
+   - Firewall Events
+   - System Events
+   - DHCP
+   - Snort Alerts (if installed)
+6. Scroll down and click **Save**.
+
+Logs are now forwarded to your configured syslog-compatible SIEM tools.
+
+---
+
+## Notes
+
+- Make sure your SIEM tools (Splunk, Wazuh) are configured to listen on the specified ports.
+- pfSense sends logs using UDP by default.
